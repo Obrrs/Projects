@@ -1,0 +1,36 @@
+html {
+    height: 100%;
+}
+ 
+body {
+    min-height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-color: #004080;
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+
+.search {
+    text-align: center;
+    margin: 20px;
+}
+
+footer {
+    text-align: center;
+    padding: 15px;
+    background-color: #004080;
+    color: white;
+    margin-top: 97px;
+    margin-bottom: 0px;
+}
+
+h1 a{
+    text-decoration: none; 
+    color: inherit;
+}

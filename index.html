@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/projeto_pap/styles/style.css">
+        <title>Escolha Certa</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <header>
+            <a href="index.html" style="text-decoration: none; color: inherit;"><h1>Escolha Certa</a> - A Escola Certa para ti.</h1>
+
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav mx-auto">
+                            <li class="nav-item"><a class="nav-link" href="#universidades">Universidades</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#politecnicos">Univesdiades Politecnicas</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#faculdades">Faculdades</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#escolas">Escolas Profissionais</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#cursos">Cursos Superiores</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        
+        <section class="search">
+            <input type="text" id="searchInput" class="form-control w-50 d-inline" placeholder="Pesquise por uma escola...">
+            <button class="btn btn-primary">Pesquisar</button>
+        </section>
+
+        <div id="escolas-container" class="container mt-4">
+            <p>A carregar lista de escolas...</p>
+        </div>
+    
+
+        <div class="container">
+            <div id="universidades" class="card p-3 my-3" >
+                <h2 onclick="window.location.href='/projeto_pap/paginas/universidades.html'">Universidades</h2>
+                <p>Do Direito às Artes, da Engenharia à Medicina. Explora a vasta oferta das universidades portuguesas.</p>
+                <div id="universidades-list" class="category-list row mb-4">
+                    <p class="text-muted small">A carregar universidades...</p>
+                </div>
+            </div>
+
+            <div id="politecnicos" class="card p-3 my-3" >
+                <h2 onclick="window.location.href='/projeto_pap/paginas/politecnicos.html'">Universidades Politecnicas</h2>
+                <p>Ensino superior mais prático e aplicado. Descobre licenciaturas e mestrados focados na tua futura profissão.</p>
+                <div id="politecnicos-list" class="category-list row mb-4">
+                    <p class="text-muted small">A carregar universidades politecnicos...</p>
+                </div>
+            </div>
+            
+            <div id="faculdades" class="card p-3 my-3">
+                <h2 onclick="window.location.href='/projeto_pap/paginas/faculdades.html'">Faculdades</h2>
+                <p>Desde engenharias a letras, explora as diferentes faculdades e as suas ofertas formativas.</p>
+                <div id="faculdades-list" class="category-list row mb-4">
+                    <p class="text-muted small">A carregar faculdades...</p>
+                </div>
+            </div>
+            <div id="escolas" class="card p-3 my-3" >
+                <h2 onclick="window.location.href='/projeto_pap/paginas/escolasProfissionais.html'">Escolas Profissionais</h2>
+                <p>Desenvolve competências técnicas e práticas numa profissão com futuro.</p>
+                <div id="escolas-profissionais-list" class="category-list row mb-4">
+                    <p class="text-muted small">A carregar escolas profissionais...</p>
+                </div>
+            </div>
+            <div id="cursos" class="card p-3 my-3" >
+                <h2 onclick="window.location.href='/projeto_pap/paginas/cursosSuperiores.html'">Cursos Superiores</h2>
+                <p>Explora Cursos Técnicos Superiores Profissionais (CTeSP) e outras formações superiores.</p>
+                <div id="cursos-superiores-list" class="category-list row mb-4">
+                    <p class="text-muted small">A carregar cursos superiores...</p>
+               </div>
+            </div>
+            <div id="escolas-container" class="container mt-4">
+            </div>
+        </div>
+
+        
+        <footer>
+            <p>&copy; 2025 Escolha Certa. Todos os direitos reservados.</p>
+        </footer>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="/projeto_pap/script.js"></script>
+    </body>
+</html>

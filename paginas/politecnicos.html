@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/projeto_pap/styles/style.css">
+        <link rel="stylesheet" href="/projeto_pap/styles/styleEscolaProfissional.css">
+        <title>Escolha Certa - A Escola Certa para ti.</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <header>
+            <a href="/projeto_pap/index.html" style="text-decoration: none; color: inherit;"><h1>Escolha Certa</a> - Escolas Profissionais </h1>
+
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav mx-auto">
+                            <li class="nav-item"><a class="nav-link" href="#universidades">Universidades</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#politecnicos">Univesdiades Politecnicas</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#faculdades">Faculdades</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#escolas">Escolas Profissionais</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#cursos">Cursos Superiores</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        
+        <section class="search">
+            <input type="text" id="searchInput" class="form-control w-50 d-inline" placeholder="Pesquise por uma escola...">
+            <button class="btn btn-primary">Pesquisar</button>
+        </section>
+
+
+        <div class="container">
+            <div id="politecnicos" class="card p-3 my-3" >
+                <h2 onclick="window.location.href='/projeto_pap/paginas/politecnicos.html'">Universidades Politecnicas</h2>
+                <p>Encontra as melhores universidades focadas em prática para continuares os teus estudos.</p>
+                <div id="politecnicos-list" class="category-list row mb-4">
+                    <p class="text-muted small">A carregar universidades politecnicos...</p>
+                </div>
+            </div>
+        </div>
+
+        
+        <footer>
+            <p>&copy; 2025 Escolha Certa. Todos os direitos reservados.</p>
+        </footer>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="/projeto_pap/politecnico.js"></script>
+    </body>
+</html>
