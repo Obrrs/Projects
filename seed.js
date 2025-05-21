@@ -6,7 +6,7 @@ const dbURI = 'mongodb://localhost:27017/escolasDB';
 
 const EscolaSchema = new mongoose.Schema({
     nome: { type: String, required: true, trim: true },
-    tipo: { type: String, enum: ['Universidade', 'Politécnico','Faculdade', 'Profissional', 'Curso Superior',] }, // Ajustar o enum se necessário
+    tipo: { type: String, enum: ['Universidade', 'Politécnico','Faculdade', 'Profissional', 'Curso Superior',] }, // Ajustar se necessário
     descricao: { type: String, trim: true },
     localidade: String
 });
@@ -19,7 +19,7 @@ async function seedDatabase() {
         await mongoose.connect(dbURI);
         console.log('MongoDB conectado para seeding.');
 
-        // Limpa dados antigos (OPCIONAL - cuidado!)
+        // Limpa dados antigos 
         console.log('A limpar a coleção escolas...');
         await Escola.deleteMany({});
 

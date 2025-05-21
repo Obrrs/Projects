@@ -4,7 +4,7 @@ const EscolaSchema = new mongoose.Schema({
     nome: { type: String, required: true, trim: true },
     tipo: {
         type: String,
-        enum: ['Unisidade', 'Politécnico', 'Faculdade', 'Profissional', 'Curso Superior'],
+        enum: ['Universidade', 'Politécnico', 'Faculdade', 'Profissional', 'Curso Superior'],
         required: true
     },
     descricao: { type: String, trim: true },

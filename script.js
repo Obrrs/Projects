@@ -189,7 +189,6 @@ async function searchSchool() {
     // Se a pesquisa for limpa, volta a mostrar a mensagem padrão
     if (!searchTerm) {
         searchResultContainer.innerHTML = '<p class="text-center text-muted">↑ Use a pesquisa acima para encontrar uma escola específica.</p>';
-        // Poderias opcionalmente recarregar as categorias aqui se quisesse que elas reaparecessem
         // fetchAndDisplayCategories();
         return;
     }
