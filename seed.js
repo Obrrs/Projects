@@ -8,7 +8,8 @@ const EscolaSchema = new mongoose.Schema({
     nome: { type: String, required: true, trim: true },
     tipo: { type: String, enum: ['Universidade', 'Politécnico','Faculdade', 'Profissional', 'Curso Superior',] }, // Ajustar se necessário
     descricao: { type: String, trim: true },
-    localidade: String
+    localidade: String,
+    saidasProfissionais: [String],
 });
 const Escola = mongoose.model("Escola", EscolaSchema);
 

@@ -5,6 +5,16 @@
  * @param {string} containerId - O ID do div onde a lista deve ser inserida (espera-se que seja um elemento com a classe 'row').
  * @param {number} limit - Quantos itens mostrar inicialmente.
  */
+
+function normalizeText(text) {
+    return text
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase();
+}
+
+let searchTimeout;
+
 function displayItemsInCategory(items, containerId, limit = 3) {
     const container = document.getElementById(containerId);
     if (!container) {
@@ -91,32 +101,55 @@ function displayItemsInCategory(items, containerId, limit = 3) {
  * @param {string} containerId - O ID do div de resultados (normalmente 'escolas-container').
  */
 function displaySearchResults(items, containerId) {
-     const container = document.getElementById(containerId);
-     if (!container) {
+    const container = document.getElementById(containerId);
+    if (!container) {
         console.error(`Container de resultados da pesquisa com ID "${containerId}" não encontrado.`);
         return;
-     }
-     container.innerHTML = ''; // Limpa "A pesquisar..." ou resultados antigos
+    }
+    container.innerHTML = '';
 
-     if (!items || items.length === 0) {
+    if (!items || items.length === 0) {
         container.innerHTML = '<p class="text-center">Nenhuma escola encontrada para a sua pesquisa.</p>';
         return;
     }
-     // Adiciona um título aos resultados
-     container.innerHTML = `<h4 class="mb-3 text-center">Resultados da Pesquisa (${items.length}):</h4>`;
 
-     items.forEach(item => {
+    container.innerHTML = `<h4 class="mb-3 text-center">Resultados da Pesquisa (${items.length}):</h4>`;
+
+    items.forEach(item => {
         let div = document.createElement('div');
-        div.classList.add('info', 'mb-3'); // Usa a classe 'info' standard aqui
-         div.innerHTML = `
+        div.classList.add('info', 'mb-3');
+        div.innerHTML = `
             <h5>${item.nome || 'Nome Indisponível'}</h5>
             <p>${item.descricao || 'Descrição não disponível.'}</p>
             <p class="small text-muted mb-0">Tipo: ${item.tipo || 'N/A'} | Localidade: ${item.localidade || 'N/A'}</p>
-            `;
+            ${item.cursos && item.cursos.length > 0 ? 
+                `<p class="small mt-2"><strong>Cursos:</strong> ${item.cursos.join(', ')}</p>` : ''}
+        `;
         container.appendChild(div);
-     });
+    });
+    
 }
-
+/**
+ * Sugere resultados enquanto o usuário digita (debounced)
+ */
+function handleSearchInput() {
+    clearTimeout(searchTimeout);
+    const searchTerm = document.getElementById('searchInput').value.trim();
+    
+    if (!searchTerm) {
+        const searchResultContainer = document.getElementById('escolas-container');
+        if (searchResultContainer) {
+            searchResultContainer.innerHTML = '<p class="text-center text-muted">↑ Use a pesquisa acima para encontrar uma escola específica.</p>';
+        }
+        return;
+    }
+    
+    searchTimeout = setTimeout(() => {
+        if (searchTerm.length >= 2) {
+            searchSchool();
+        }
+    }, 300);
+}
 /**
  * Função principal para procurar todas as escolas do backend e distribuí-las pelas categorias no HTML.
  */
@@ -144,7 +177,7 @@ async function fetchAndDisplayCategories() {
         displayItemsInCategory(faculdades, 'faculdades-list', 3);
         displayItemsInCategory(profissionais, 'escolas-profissionais-list', 3);
         displayItemsInCategory(cursos, 'cursos-superiores-list', 3);
-        // Chama para outras categorias se as tiveres e tiveres criado os divs no HTML
+        // Chama para outras categorias divs no HTML
 
         // Limpa o container da pesquisa ou coloca uma mensagem inicial
         const searchResultContainer = document.getElementById('escolas-container');
@@ -231,15 +264,12 @@ function handleSearchKeyPress(event) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("DOM Carregado. A iniciar script."); // Confirma que o script está a correr
+    console.log("DOM Carregado. A iniciar script.");
 
-    // Chama a função inicial para buscar e mostrar os dados por categoria
     fetchAndDisplayCategories();
 
-    // Configura os listeners para a barra de pesquisa
     const searchButton = document.querySelector('.search button');
     if (searchButton) {
-        // Não precisas de remover listeners aqui se este bloco só corre uma vez
         searchButton.addEventListener('click', searchSchool);
         console.log("Listener de clique adicionado ao botão de pesquisa.");
     } else {
@@ -249,10 +279,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('searchInput');
     if (searchInput) {
         searchInput.addEventListener('keypress', handleSearchKeyPress);
-        console.log("Listener de keypress adicionado ao input de pesquisa.");
+        searchInput.addEventListener('input', handleSearchInput); // <-- Adicione esta linha
+        console.log("Listeners de pesquisa adicionados ao input.");
     } else {
         console.warn("Input de pesquisa (searchInput) não encontrado no HTML.");
     }
 });
+
 
 // Fim do ficheiro script.js

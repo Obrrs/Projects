@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 
 const EscolaSchema = new mongoose.Schema({
-    nome: { type: String, required: true, trim: true },
+    nome: { 
+        type: String, 
+        required: true, 
+        trim: true },
     tipo: {
         type: String,
         enum: ['Universidade', 'Politécnico', 'Faculdade', 'Profissional', 'Curso Superior'],
@@ -16,17 +19,20 @@ const EscolaSchema = new mongoose.Schema({
     website: { // Link para o site
         type: String,
         trim: true
-        // Poderias adicionar validação de URL aqui depois, se quiseres
     },
     preco: { // Informação sobre custos/propinas
-        type: String, // Usar String para flexibilidade (ex: "Gratuito", "1000€/ano", "Sob consulta")
+        type: String,
         trim: true
+    },
+    saidasProfissionais: {
+        type: String,
+        trim: true,// Lista de possíveis saídas profissionais
+        default: []
     }
-    
 });
 
-// Opção 1: Índice de Texto (Recomendado para pesquisa em texto)
-EscolaSchema.index({ nome: 'text', descricao: 'text', localidade: 'text', endereco: 'text'});
+EscolaSchema.index({ nome: 'text', descricao: 'text', localidade: 'text', endereco: 'text', preco: 'text', saidasProfissionais: 'text' });
+// Adiciona um índice de texto para permitir buscas por nome, descrição, localidade, etc.
 
 // Exporta o modelo para poder ser usado noutros ficheiros
 module.exports = mongoose.model("Escola", EscolaSchema);
