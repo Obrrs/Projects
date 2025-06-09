@@ -284,7 +284,46 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.warn("Input de pesquisa (searchInput) não encontrado no HTML.");
     }
+    // ========== INTERCEPTADOR DE ROTAS ==========
+    document.addEventListener('DOMContentLoaded', () => {
+        // Intercepta todos os cliques em links
+        document.body.addEventListener('click', function(event) {
+            const link = event.target.closest('a');
+            if (!link) return;
+
+            // Verifica se é para detalhes.html
+            if (link.href.includes('/detalhes.html')) {
+                event.preventDefault();
+                showMaintenanceAlert();
+                return;
+            }
+        });
+
+        // Verifica se a URL atual é de detalhes
+        if (window.location.pathname.includes('/detalhes.html')) {
+            showMaintenanceAlert();
+            redirectToHomeAfterDelay();
+        }
+    });
+
+    function showMaintenanceAlert() {
+        const alertElement = document.getElementById('maintenance-alert');
+        if (alertElement) {
+            alertElement.classList.remove('d-none');
+            setTimeout(() => {
+                alertElement.classList.add('d-none');
+            }, 7000);
+        }
+    }
+
+    function redirectToHomeAfterDelay() {
+        setTimeout(() => {
+            window.location.href = '/projeto_pap/index.html';
+        }, 5000); // Redireciona após 5 segundos
+    }
+    
 });
+
 
 
 // Fim do ficheiro script.js

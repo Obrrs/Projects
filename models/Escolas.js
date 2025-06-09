@@ -25,10 +25,10 @@ const EscolaSchema = new mongoose.Schema({
         trim: true
     },
     saidasProfissionais: {
-        type: String,
-        trim: true,// Lista de possíveis saídas profissionais
-        default: []
-    }
+    type: [String], // Array de strings
+    default: [],
+    trim: true
+}
 });
 
 EscolaSchema.index({ nome: 'text', descricao: 'text', localidade: 'text', endereco: 'text', preco: 'text', saidasProfissionais: 'text' });

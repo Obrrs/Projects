@@ -20,3 +20,12 @@ footer {
    text-align: center;
    padding: 1rem;
 }
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+#maintenance-alert {
+  animation: fadeOut 1s ease-in-out 6s forwards;
+}

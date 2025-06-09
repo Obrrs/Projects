@@ -11,7 +11,7 @@ function displayVerticalList(escolas, containerId) {
    container.innerHTML = ''; // Limpa conteúdo anterior (ex: "A carregar...")
 
    if (!escolas || escolas.length === 0) {
-       container.innerHTML = '<p class="text-center text-muted">Nenhum Curso Superior encontrada.</p>';
+       container.innerHTML = '<p class="text-center text-muted">Nenhum Instituto Politécnico encontrado.</p>';
        return;
    }
 

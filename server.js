@@ -18,46 +18,53 @@ mongoose.connect("mongodb://localhost:27017/escolasDB")
 app.get('/escolas', async (req, res) => {
     try {
         const searchTerm = req.query.q || '';
+        const tipo = req.query.tipo;  // Pega o parâmetro de tipo
+
+        // 1. Cria filtro inicial
+        let filter = {};
         
-        // 1. Normalização do termo de busca
-        const normalizedTerm = searchTerm
-            .normalize('NFD') // Decompõe caracteres acentuados
-            .replace(/[\u0300-\u036f]/g, '') // Remove diacríticos
-            .toLowerCase();
-        
-        // 2. Divide em termos individuais
-        const searchTerms = normalizedTerm.split(/\s+/).filter(term => term.length > 0);
-        
-        // 3. Procura todas as escolas
-        const allEscolas = await Escola.find({}); // Supondo uso do Mongoose
-        
-        // 4. Filtra as escolas
-        const escolasFiltradas = allEscolas.filter(escola => {
-            // Cria uma string de busca com todos os campos relevantes
-            const searchableText = [
-                escola.nome,
-                escola.tipo,
-                escola.localidade,
-                escola.descricao,
-                escola.cursos?.join(' ') || '' // Junta cursos em uma string
-            ]
-            .join(' ') // Une tudo numa grande string
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .toLowerCase();
+        // 2. Adiciona filtro por tipo se existir
+        if (tipo) {
+            filter.tipo = tipo;
+        }
+
+        // 3. Procura no MongoDB COM filtro
+        const escolas = await Escola.find(filter);
+
+
+        // 4. Aplica filtro textual se necessário
+        if (searchTerm) {
+            const normalizedTerm = searchTerm
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase();
             
-            // Verifica se TODOS os termos estão presentes
-            return searchTerms.every(term => searchableText.includes(term));
-        });
-        
-        res.json(escolasFiltradas);
+            const searchTerms = normalizedTerm.split(/\s+/).filter(term => term.length > 0);
+            
+            const resultadosFinais = escolas.filter(escola => {
+                const searchableText = [
+                    escola.nome,
+                    escola.localidade,
+                    escola.descricao,
+                    escola.cursos?.join(' ') || ''
+                ]
+                .join(' ')
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase();
+                
+                return searchTerms.every(term => searchableText.includes(term));
+            });
+            
+            res.json(resultadosFinais);
+        } else {
+            // 5. Retorna resultados filtrados por tipo
+            res.json(escolas);
+        }
+
     } catch (error) {
         console.error('Erro na pesquisa:', error);
-        res.status(500).json({ 
-            success: false,
-            message: 'Erro ao processar pesquisa',
-            error: error.message
-        });
+        res.status(500).json({ message: "Erro ao buscar escolas." });
     }
 });
 
