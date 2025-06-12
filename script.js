@@ -100,21 +100,30 @@ function displayItemsInCategory(items, containerId, limit = 3) {
  * @param {Array} items - Array de objetos (escolas) encontrados.
  * @param {string} containerId - O ID do div de resultados (normalmente 'escolas-container').
  */
+
+/**Função para mostrar os resultados da pesquisa */
 function displaySearchResults(items, containerId) {
+     // Obtém o elemento container pelo ID fornecido
     const container = document.getElementById(containerId);
     if (!container) {
+        // Se o container não for encontrado, exibe um erro no console e interrompe a função
         console.error(`Container de resultados da pesquisa com ID "${containerId}" não encontrado.`);
         return;
     }
-    container.innerHTML = '';
 
+    // Limpa qualquer conteúdo anterior do container
+    container.innerHTML = '';
+    
+    // Se não houver itens, exibe uma mensagem informando que nenhuma escola foi encontrada
     if (!items || items.length === 0) {
         container.innerHTML = '<p class="text-center">Nenhuma escola encontrada para a sua pesquisa.</p>';
         return;
     }
 
+    // Exibe o título com a quantidade de resultados encontrados
     container.innerHTML = `<h4 class="mb-3 text-center">Resultados da Pesquisa (${items.length}):</h4>`;
 
+    // Para cada item na lista, cria um novo bloco com as informações da escola
     items.forEach(item => {
         let div = document.createElement('div');
         div.classList.add('info', 'mb-3');
@@ -125,6 +134,7 @@ function displaySearchResults(items, containerId) {
             ${item.cursos && item.cursos.length > 0 ? 
                 `<p class="small mt-2"><strong>Cursos:</strong> ${item.cursos.join(', ')}</p>` : ''}
         `;
+        // Adiciona o bloco criado ao container principal
         container.appendChild(div);
     });
     

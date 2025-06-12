@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da Escola - Manutenção</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/projeto_pap/styles/detalhes.css">
+</head>
+<body>
+    <div class="maintenance-container">
+        <div class="maintenance-icon">🔧</div>
+        <h1 class="display-4">Página em Manutenção</h1>
+        <p class="lead">Estamos a trabalhar para melhorar a tua experiência na página.</p>
+        
+        <div class="countdown" id="countdown">5</div>
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" 
+                 id="progress-bar" role="progressbar" style="width: 0%"></div>
+        </div>
+        
+        <div class="alert alert-warning" role="alert">
+            Vais redirecionado automaticamente para a página inicial em <span id="seconds">5</span> segundos.
+        </div>
+        
+        <div class="contact-info">
+            <h5>Precisas de ajuda agora?</h5>
+            <p>Entre em contato com nosso suporte: suporte@epce.pt</p>
+            <p>Telefone: +351 123 456 789</p>
+        </div>
+        
+        <div class="mt-4">
+            <p>Enquanto isso, podes:</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="/projeto_pap/index.html" class="btn btn-primary">
+                    Voltar à Página Inicial
+                </a>
+                <!---->
+                <a href="/projeto_pap/index.html" class="btn btn-outline-secondary">
+                    Ver Escolas Disponíveis (em breve)
+                </a>
+            </div>
+        </div>
+    </div>
+    <script src="/projeto_pap/scripts/detalhesScript.js"></script>
+</body>
+</html>

@@ -30,7 +30,7 @@ function displayVerticalList(escolas, containerId) {
             </h5>
             <p>${escola.descricao || 'Descrição não disponível.'}</p>
             <p class="small mb-1"><strong>Endereço:</strong> ${escola.endereco || escola.localidade || 'N/A'}</p>
-            <p class="small mb-1"><strong>Website:</strong> ${escola.website ? `<a href="${escola.website}" target="_blank" rel="noopener noreferrer">${escola.website}</a>` : 'N/A'}</p>
+            <p class="small mb-1"><strong>Website:</strong> ${escola.website ? `<a href="/projeto_pap/paginas/detalhes.html" target="_self" rel="noopener noreferrer">${escola.website}</a>` : 'N/A'}</p>
             <p class="small text-muted mb-0"><strong>Preço/Propinas:</strong> ${escola.preco || 'N/A'}</p>
             ${escola.saidasProfissionais && escola.saidasProfissionais.length > 0 
             ? `<p class="small mt-2"><strong>Saídas Profissionais:</strong> ${escola.saidasProfissionais.join(', ')}</p>`
