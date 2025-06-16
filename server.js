@@ -31,7 +31,6 @@ app.get('/escolas', async (req, res) => {
         // 3. Procura no MongoDB COM filtro
         const escolas = await Escola.find(filter);
 
-
         // 4. Aplica filtro textual se necessário
         if (searchTerm) {
             const normalizedTerm = searchTerm

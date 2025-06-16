@@ -6,18 +6,21 @@
  * @param {number} limit - Quantos itens mostrar inicialmente.
  */
 
+// Remove acentos e deixa tudo minúsculo
 function normalizeText(text) {
     return text
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .toLowerCase();
+        .normalize('NFD') // Converte caracteres acentuados em letra + acento (ex: "á" → "a´")
+        .replace(/[\u0300-\u036f]/g, '') // Remove todos os sinais diacríticos (acentos, til, etc.)
+        .toLowerCase(); // Converte para minúsculas (padroniza busca)
 }
 
+// Guarda o tempo da pesquisa pra não estar sempre a procurar 
 let searchTimeout;
 
+// Mostra uma lista de escolas com limite e botão "Ver Mais"
 function displayItemsInCategory(items, containerId, limit = 3) {
-    const container = document.getElementById(containerId);
-    if (!container) {
+    const container = document.getElementById(containerId); // Pega a div onde os itens serão exibidos
+    if (!container) {  // Se não existir, mostra erro no terminal
         console.error(`Container com ID "${containerId}" não encontrado.`);
         return;
     }
@@ -47,7 +50,9 @@ function displayItemsInCategory(items, containerId, limit = 3) {
             if (i >= limit) {
                 divWrapper.classList.add('category-item-extra');
             }
-
+            //um "card" é uma caixa visual usada para exibir 
+            // informações de uma categoria (ex: universidades, cursos) de forma organizada na página
+            // HTML do card (nome + localidade)
             divWrapper.innerHTML = `
                 <div class="info info-small h-100">
                     <h6>${item.nome || 'Nome Indisponível'}</h6>
@@ -72,20 +77,21 @@ function displayItemsInCategory(items, containerId, limit = 3) {
         toggleButton.innerText = `Ver Mais (${items.length - limit} restantes)`;
 
         buttonContainer.appendChild(toggleButton);
+
         // Adiciona o botão DEPOIS de todos os itens iniciais no container 'row'
         container.appendChild(buttonContainer);
 
-        // Adiciona o listener de clique ao botão
+        // Ao clicar no botão, expande/recolhe a lista
         toggleButton.addEventListener('click', () => {
             isExpanded = !isExpanded; // Inverte o estado
 
             if (isExpanded) {
                 // Estado: Expandido -> Mostra os itens extra
-                renderItemsChunk(limit, items.length); // Renderiza os restantes
+                renderItemsChunk(limit, items.length); // Mostra todos os itens
                 toggleButton.innerText = 'Ver Menos';
                 toggleButton.classList.replace('btn-outline-primary', 'btn-outline-secondary');
             } else {
-                // Estado: Recolhido -> Remove os itens extra
+                // Mostra todos os itens
                 const extraItems = container.querySelectorAll('.category-item-extra');
                 extraItems.forEach(el => container.removeChild(el)); // Remove cada item extra
 
@@ -123,7 +129,7 @@ function displaySearchResults(items, containerId) {
     // Exibe o título com a quantidade de resultados encontrados
     container.innerHTML = `<h4 class="mb-3 text-center">Resultados da Pesquisa (${items.length}):</h4>`;
 
-    // Para cada item na lista, cria um novo bloco com as informações da escola
+    // Para cada item na lista, cria um novo bloco/zona com as informações da escola
     items.forEach(item => {
         let div = document.createElement('div');
         div.classList.add('info', 'mb-3');
@@ -140,12 +146,13 @@ function displaySearchResults(items, containerId) {
     
 }
 /**
- * Sugere resultados enquanto o usuário digita (debounced)
+ * Sugere resultados enquanto o usuário digita (digitação)
  */
 function handleSearchInput() {
-    clearTimeout(searchTimeout);
-    const searchTerm = document.getElementById('searchInput').value.trim();
+    clearTimeout(searchTimeout); // Cancela a procura anterior se o utilizador ainda está a digitar
+    const searchTerm = document.getElementById('searchInput').value.trim();  // Pega a palavra digitada pelo utilizador
     
+    // Se a procura estiver vazia, mostra uma mensagem padrão
     if (!searchTerm) {
         const searchResultContainer = document.getElementById('escolas-container');
         if (searchResultContainer) {
@@ -154,8 +161,9 @@ function handleSearchInput() {
         return;
     }
     
+    // Espera 300ms após a última tecla para fazer a procura (evita sobrecarga)
     searchTimeout = setTimeout(() => {
-        if (searchTerm.length >= 2) {
+        if (searchTerm.length >= 2) {  // Só pesquisa se tiver pelo menos 2 caracteres
             searchSchool();
         }
     }, 300);
@@ -165,7 +173,7 @@ function handleSearchInput() {
  */
 async function fetchAndDisplayCategories() {
     try {
-        console.log("A procuar todas as escolas para categorias...");
+        console.log("A procuar todas as escolas para categorias...");  // Faz requisição ao backend
         const response = await fetch('http://localhost:5000/escolas'); // Procura TUDO
         if (!response.ok) {
             throw new Error(`Erro HTTP ao buscar escolas: ${response.status}`);
@@ -173,6 +181,7 @@ async function fetchAndDisplayCategories() {
         const allEscolas = await response.json();
         console.log(`Recebidas ${allEscolas.length} escolas do backend.`);
 
+        // Filtra escolas por tipo:
         const universidades = allEscolas.filter(e => e.tipo === 'Universidade');
         const politecnicos = allEscolas.filter(e => e.tipo === 'Politécnico');
         const faculdades = allEscolas.filter(e => e.tipo === 'Faculdade');
@@ -195,14 +204,14 @@ async function fetchAndDisplayCategories() {
             searchResultContainer.innerHTML = '<p class="text-center text-muted">↑ Use a pesquisa acima para encontrar uma escola específica.</p>';
         }
 
-    } catch (error) {
+    } catch (error) {   // Se algo der errado (ex: servidor offline)
         console.error('Falha ao carregar ou mostrar escolas por categoria:', error);
         // Mostra uma mensagem de erro geral na página
         const mainContainer = document.querySelector('.container'); // O container dos cards
         if (mainContainer) {
              const errorDiv = document.createElement('div');
              errorDiv.innerHTML = '<p class="alert alert-danger">Não foi possível carregar as listas de escolas por categoria. Verifique se o servidor está a correr e a base de dados acessível.</p>';
-             // Adiciona antes do primeiro card de categoria
+             // Adiciona antes da primeira caixa/zona de categoria
              const firstCard = mainContainer.querySelector('.card');
              if(firstCard) {
                  mainContainer.insertBefore(errorDiv, firstCard);
@@ -257,7 +266,7 @@ async function searchSchool() {
         // Usa a função específica para mostrar os resultados da pesquisa
         displaySearchResults(escolasFiltradas, 'escolas-container');
 
-    } catch (error) {
+    } catch (error) {  // Se falhar a pesquisa (ex: rede, servidor offline)
         console.error('Falha ao pesquisar escolas:', error);
         searchResultContainer.innerHTML = `<p class="text-center text-danger">Ocorreu um erro durante a pesquisa: ${error.message}. Tente novamente.</p>`;
     }
@@ -267,7 +276,7 @@ async function searchSchool() {
  * Função auxiliar para lidar com a tecla Enter no input de pesquisa.
  */
 function handleSearchKeyPress(event) {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter') { // Se apertar Enter, faz a pesquisa
         event.preventDefault(); // Evita que o Enter faça outras coisas (ex: submeter formulário)
         searchSchool(); // Chama a mesma função da pesquisa do botão
     }
@@ -276,8 +285,9 @@ function handleSearchKeyPress(event) {
 document.addEventListener('DOMContentLoaded', () => {
     console.log("DOM Carregado. A iniciar script.");
 
-    fetchAndDisplayCategories();
+    fetchAndDisplayCategories();  // Carrega as categorias de escolas
 
+    // Configura o botão de pesquisa
     const searchButton = document.querySelector('.search button');
     if (searchButton) {
         searchButton.addEventListener('click', searchSchool);
@@ -286,6 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.warn("Botão de pesquisa não encontrado no HTML.");
     }
 
+     // Configura o input de busca (tecla Enter e digitação)
     const searchInput = document.getElementById('searchInput');
     if (searchInput) {
         searchInput.addEventListener('keypress', handleSearchKeyPress);
@@ -302,38 +313,20 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!link) return;
 
             // Verifica se é para detalhes.html
-            if (link.href.includes('/detalhes.html')) {
-                event.preventDefault();
-                showMaintenanceAlert();
+            if (link.href.includes('/detalhes.html')) {  // Se tentar aceder detalhes.html
+                event.preventDefault();  // Bloqueia o link
+                showMaintenanceAlert();  // Mostra aviso
                 return;
             }
         });
 
-        // Verifica se a URL atual é de detalhes
+        // Se já estiver em detalhes.html, redireciona para indela.html após 5 segundos
         if (window.location.pathname.includes('/detalhes.html')) {
             showMaintenanceAlert();
             redirectToHomeAfterDelay();
         }
     });
-
-    function showMaintenanceAlert() {
-        const alertElement = document.getElementById('maintenance-alert');
-        if (alertElement) {
-            alertElement.classList.remove('d-none');
-            setTimeout(() => {
-                alertElement.classList.add('d-none');
-            }, 7000);
-        }
-    }
-
-    function redirectToHomeAfterDelay() {
-        setTimeout(() => {
-            window.location.href = '/projeto_pap/index.html';
-        }, 5000); // Redireciona após 5 segundos
-    }
-    
 });
-
 
 
 // Fim do ficheiro script.js
